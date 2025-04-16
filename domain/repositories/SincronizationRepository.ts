@@ -3,9 +3,10 @@ import { OSPlantDTO } from "../types/OSPlantDTO";
 import { OSProductionDTO } from "../types/OSProductionDTO";
 import { OSFertigationDTO } from "../types/OSFertigationDTO";
 import { OSHeaderDTO } from "../types/OSHeaderDTO";
+import { AxiosError, AxiosResponse } from "axios";
 
 export interface SincronizationRepository {
-    getOSHeader(): Promise<OSHeaderDTO[]>;
+    getOSHeader(): Promise<AxiosResponse<OSHeaderDTO[]>>;
     getOSPlant(): Promise<OSPlantDTO[]>;
     getOSProduction(): Promise<OSProductionDTO[]>;
     getOSSupply(): Promise<OSSupplyDTO[]>;

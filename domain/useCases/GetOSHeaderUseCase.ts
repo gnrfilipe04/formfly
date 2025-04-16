@@ -1,4 +1,4 @@
-import { OSPlantDTO } from "../entities/OSPlant";
+import { AxiosError } from "axios";
 import { SincronizationRepository } from "../repositories/SincronizationRepository";
 import { OSHeaderDTO } from "../types/OSHeaderDTO";
 
@@ -9,10 +9,11 @@ export class GetOSHeaderUseCase {
 
     async execute(): Promise<OSHeaderDTO[] | undefined> {
         try {
-            return this.repository.getOSHeader(); 
-        } catch (error) {
-            //  TODO: implement error handler
-            console.log(error)
+            const result = await this.repository.getOSHeader(); 
+            return result.data
+        } catch (error: unknown) {
+            const axiosError = error as AxiosError
+            console.log(axiosError)
         }
 
     }

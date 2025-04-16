@@ -4,27 +4,17 @@ import { OSProductionDTO } from "@/domain/entities/OSProduction";
 import { OSSupplyDTO } from "@/domain/entities/OSSupply";
 import { OSFertigationDTO } from "@/domain/types/OSFertigationDTO";
 import { OSHeaderDTO } from "@/domain/types/OSHeaderDTO";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { OSHeader } from "@/domain/entities/OSHeader";
 
 
 export class DatabaseOrdersDataSourceImpl  implements DatabaseOrdersDataSource {
     private apiInstance = axios.create({
-        baseURL: 'https://localhost:3333/'
+        baseURL: 'http://localhost:3000/'
     })
 
-    getOSHeader(): Promise<OSHeaderDTO[]> {
-        const mockHeader: OSHeaderDTO = {
-            id: "1",
-            title: "mockTeste", 
-            type: 'production',
-            description: 'Mock header for testing',
-            createdAt: new Date(),
-            updatedAt: null,
-        }
-
-        return Promise.resolve([mockHeader])
-        
-        // return this.apiInstance.get('header')
+    async getOSHeader(): Promise<AxiosResponse<OSHeaderDTO[]>> {
+        return await this.apiInstance.get('os_header')
     }
     getOSPlant(): Promise<OSPlantDTO[]> {
         return this.apiInstance.get('plant')

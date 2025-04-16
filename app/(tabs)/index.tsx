@@ -3,8 +3,18 @@ import { Button, StyleSheet } from 'react-native';
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { getOSHeaderUseCase } from '@/di/Sync';
+import { useReducer } from 'react';
+import { OSHeaderDTO } from '@/domain/types/OSHeaderDTO';
 
 export default function TabOneScreen() {
+  const [headers, dispatch] = useReducer((state: OSHeaderDTO[], action: { type: string; payload?: OSHeaderDTO[] }) => {
+    switch (action.type) {
+      case 'SET_HEADERS':
+        return action.payload || [];
+      default:
+        return state;
+    }
+  }, []);
 
   const getOSHeaders = async () => {
     const data = await getOSHeaderUseCase.execute()
