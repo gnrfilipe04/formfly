@@ -28,7 +28,7 @@ export const useOSStore = create<State & Actions>()(
             title: "",
             description: "",
             type,
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
             updatedAt: null,
           }
 

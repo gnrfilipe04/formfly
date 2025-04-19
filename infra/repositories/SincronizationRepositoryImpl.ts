@@ -5,11 +5,12 @@ import { OSFertigationDTO } from "@/domain/types/OSFertigationDTO";
 import { OSProductionDTO } from "@/domain/types/OSProductionDTO";
 import { OSSupplyDTO } from "@/domain/types/OSSupplyDTO";
 import { DatabaseOrdersDataSource } from "@/domain/datasources/DatabaseOrdersDataSouce";
+import { AxiosResponse } from "axios";
 
 export class SincronizationRepositoryImpl implements SincronizationRepository {
     constructor(private dataSource: DatabaseOrdersDataSource) {}
 
-    async getOSHeader(): Promise<OSHeaderDTO[]> {
+    async getOSHeader(): Promise<AxiosResponse<OSHeaderDTO[]>> {
 
         try {
             return this.dataSource.getOSHeader();
@@ -42,7 +43,7 @@ export class SincronizationRepositoryImpl implements SincronizationRepository {
         }
     }
 
-    async getOSFertigation(): Promise<OSFertigationDTO[]> {
+    async getOSFertigation(): Promise<AxiosResponse<OSFertigationDTO[]>> {
         try {
             return this.dataSource.getOSFertigation();
         } catch (error) {

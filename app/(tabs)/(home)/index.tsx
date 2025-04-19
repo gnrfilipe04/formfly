@@ -1,49 +1,59 @@
-import { Button, StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import { Alert, FlatList, StyleSheet, View } from 'react-native';
+import { ItemSeparator, Text, View as ViewThemed } from '@/components/Themed';
+import { getOSFertigationUseCase } from '@/di/Sync';
+import { useHomeReducers } from '@/reducers/home';
+import { Card } from '@/components/Card';
+import { OSFertigation } from '@/domain/entities/OSFertigation';
+import { z } from 'zod'
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-import { getOSHeaderUseCase } from '@/di/Sync';
-import { useReducer } from 'react';
-import { OSHeaderDTO } from '@/domain/types/OSHeaderDTO';
-
-export default function TabOneScreen() {
-  const [headers, dispatch] = useReducer((state: OSHeaderDTO[], action: { type: string; payload?: OSHeaderDTO[] }) => {
-    switch (action.type) {
-      case 'SET_HEADERS':
-        return action.payload || [];
-      default:
-        return state;
-    }
-  }, []);
+export default function Orders() {
+  const {
+    fertigationDispatch,
+    fertigationState
+  } = useHomeReducers()
 
   const getOSHeaders = async () => {
-    const data = await getOSHeaderUseCase.execute()
-    console.log({ data, })
+    
+    const data = await getOSFertigationUseCase.execute()
+
+    if(!data) return
+
+    const zodValidation = z.array(OSFertigation).safeParse(data)
+
+    if(zodValidation.error){
+      return Alert.alert('Tipo de ordem de fertirrigação inválido!', zodValidation.error.errors[0].message)
+    }
+
+    fertigationDispatch({
+      type: 'SET',
+      payload: data 
+    })
   }
 
+  useEffect(() => {
+    getOSHeaders()
+  }, [])
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-      <Button title='Headers' onPress={getOSHeaders}/>
-    </View>
+    <ViewThemed style={styles.container}>
+      <FlatList
+        data={fertigationState.osFertigationList}
+        keyExtractor={(item) => item.header.id}
+        ListEmptyComponent={() => (
+          <View style={{ alignItems: 'center', marginTop: 60}}>
+            <Text>Nenhuma ordem de serviço encontrada</Text>
+          </View>
+        )}
+        ItemSeparatorComponent={() => <ItemSeparator />} 
+        renderItem={({ item }) => <Card item={item.header}/>}
+      />
+    </ViewThemed>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
   },
 });

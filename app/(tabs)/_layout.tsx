@@ -1,13 +1,7 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import { Tabs } from 'expo-router';
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from 'react-native';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
@@ -16,13 +10,16 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
 
   return (
     <Tabs screenOptions={{
-      headerSearchBarOptions: {},
+      headerSearchBarOptions: {
+        cancelButtonText: 'Cancelar',
+        placeholder: 'Pesquisar',
+      },
       animation: 'shift',
       popToTopOnBlur: true,
+      tabBarShowLabel: false,
       tabBarStyle: {
         paddingTop: 10,
         height: 100

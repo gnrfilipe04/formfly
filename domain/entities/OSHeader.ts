@@ -5,7 +5,7 @@ export const OSHeader = z.object({
   title: z.string(),
   description: z.string(),
   type: z.enum(["plant", "fertigation", "production", "supply"]),
-  createdAt: z.date(),
-  updatedAt: z.date().nullable(),
+  createdAt: z.string(),
+  updatedAt: z.string().nullable(),
 });
 
