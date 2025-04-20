@@ -5,7 +5,8 @@ import { OSFertigationDTO } from "@/domain/types/OSFertigationDTO";
 import { OSProductionDTO } from "@/domain/types/OSProductionDTO";
 import { OSSupplyDTO } from "@/domain/types/OSSupplyDTO";
 import { DatabaseOrdersDataSource } from "@/domain/datasources/DatabaseOrdersDataSouce";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
+import { Either, left, right } from "fp-ts/lib/Either";
 
 export class SincronizationRepositoryImpl implements SincronizationRepository {
     constructor(private dataSource: DatabaseOrdersDataSource) {}
@@ -43,12 +44,14 @@ export class SincronizationRepositoryImpl implements SincronizationRepository {
         }
     }
 
-    async getOSFertigation(): Promise<AxiosResponse<OSFertigationDTO[]>> {
+    async getOSFertigation(): Promise<Either<AxiosError, AxiosResponse<OSFertigationDTO[]>>> {
         try {
-            return this.dataSource.getOSFertigation();
+            const promise = await this.dataSource.getOSFertigation()
+            return right(promise)
         } catch (error) {
-            throw error;
+            return left(error as AxiosError)
         }
+
     }
 
     async sendOSPlant(osPlant: Record<string, OSPlantDTO>): Promise<void> {

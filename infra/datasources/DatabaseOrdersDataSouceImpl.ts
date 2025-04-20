@@ -4,8 +4,8 @@ import { OSProductionDTO } from "@/domain/entities/OSProduction";
 import { OSSupplyDTO } from "@/domain/entities/OSSupply";
 import { OSFertigationDTO } from "@/domain/types/OSFertigationDTO";
 import { OSHeaderDTO } from "@/domain/types/OSHeaderDTO";
-import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { OSHeader } from "@/domain/entities/OSHeader";
+import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+import { Either } from "fp-ts/lib/Either";
 
 
 export class DatabaseOrdersDataSourceImpl  implements DatabaseOrdersDataSource {
@@ -25,7 +25,7 @@ export class DatabaseOrdersDataSourceImpl  implements DatabaseOrdersDataSource {
         return this.apiInstance.get('supply')
     }
     getOSFertigation(): Promise<AxiosResponse<OSFertigationDTO[]>> {
-        return this.apiInstance.get('fertigation')
+        return this.apiInstance.get('os_fertigation')
     }
     sendOSPlant(osPlant: Record<string, OSPlantDTO>): Promise<void> {
         return this.apiInstance.post('plant')

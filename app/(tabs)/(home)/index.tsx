@@ -1,11 +1,17 @@
 import { useEffect } from 'react';
-import { Alert, FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { ItemSeparator, Text, View as ViewThemed } from '@/components/Themed';
 import { getOSFertigationUseCase } from '@/di/Sync';
 import { useHomeReducers } from '@/reducers/home';
 import { Card } from '@/components/Card';
 import { OSFertigation } from '@/domain/entities/OSFertigation';
-import { z } from 'zod'
+import { z, ZodError } from 'zod'
+import R from 'ramda'
+import { OSFertigationDTO } from '@/domain/types/OSFertigationDTO';
+import { AxiosError, AxiosResponse } from 'axios';
+import { Either, fold, left, right } from 'fp-ts/lib/Either';
+import { leftAlert } from '@/utils/helpers';
+import { useServerData } from '@/hooks/useServerData';
 
 export default function Orders() {
   const {
@@ -13,26 +19,31 @@ export default function Orders() {
     fertigationState
   } = useHomeReducers()
 
-  const getOSHeaders = async () => {
-    
-    const data = await getOSFertigationUseCase.execute()
-
-    if(!data) return
+  const getServerData = (): Promise<Either<AxiosError, AxiosResponse<OSFertigationDTO[]>>> => getOSFertigationUseCase.execute()
+  
+  const formatValidate = (data: OSFertigationDTO[]): Either<ZodError, OSFertigationDTO[]> => {
 
     const zodValidation = z.array(OSFertigation).safeParse(data)
 
-    if(zodValidation.error){
-      return Alert.alert('Tipo de ordem de fertirrigação inválido!', zodValidation.error.errors[0].message)
-    }
+    return zodValidation.success ? right(data) : left(zodValidation.error)
 
+  }
+
+  const setState = (data: OSFertigationDTO[]) => {
     fertigationDispatch({
       type: 'SET',
       payload: data 
     })
   }
 
+  const  { trigger } = useServerData({
+    get: getServerData,
+    set: setState,
+    validate: formatValidate
+  })
+
   useEffect(() => {
-    getOSHeaders()
+    trigger()
   }, [])
 
   return (

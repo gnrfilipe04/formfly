@@ -3,7 +3,7 @@ import { OSProductionDTO } from "@/domain/entities/OSProduction";
 import { OSSupplyDTO } from "@/domain/entities/OSSupply";
 import { OSFertigationDTO } from "@/domain/types/OSFertigationDTO";
 import { OSHeaderDTO } from "@/domain/types/OSHeaderDTO";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 
 export interface DatabaseOrdersDataSource {
