@@ -2,18 +2,20 @@ import { StyleSheet,  } from 'react-native';
 import { Text } from './Themed';
 import { OSHeaderDTO } from '@/domain/types/OSHeaderDTO';
 import { View } from './Themed'
+import { capitalize } from '@/utils/helpers';
 
 type CardProps = {
   item: OSHeaderDTO
 }
 
 export function Card({ item }: CardProps) {
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>nº {item.title}</Text>
       <Text style={styles.description}>{item.description}</Text>
       <View style={styles.footer}>
-        <Text>Tipo: {item.type}</Text>
+        <Text>Tipo: {capitalize(item.type)}</Text>
         <Text>
           {new Date(item.createdAt).toLocaleDateString()}
         </Text>

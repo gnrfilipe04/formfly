@@ -5,12 +5,7 @@ import { getOSFertigationUseCase } from '@/di/Sync';
 import { useHomeReducers } from '@/reducers/home';
 import { Card } from '@/components/Card';
 import { OSFertigation } from '@/domain/entities/OSFertigation';
-import { z, ZodError } from 'zod'
-import R from 'ramda'
 import { OSFertigationDTO } from '@/domain/types/OSFertigationDTO';
-import { AxiosError, AxiosResponse } from 'axios';
-import { Either, fold, left, right } from 'fp-ts/lib/Either';
-import { leftAlert } from '@/utils/helpers';
 import { useServerData } from '@/hooks/useServerData';
 
 export default function Orders() {
@@ -18,17 +13,7 @@ export default function Orders() {
     fertigationDispatch,
     fertigationState
   } = useHomeReducers()
-
-  const getServerData = (): Promise<Either<AxiosError, AxiosResponse<OSFertigationDTO[]>>> => getOSFertigationUseCase.execute()
   
-  const formatValidate = (data: OSFertigationDTO[]): Either<ZodError, OSFertigationDTO[]> => {
-
-    const zodValidation = z.array(OSFertigation).safeParse(data)
-
-    return zodValidation.success ? right(data) : left(zodValidation.error)
-
-  }
-
   const setState = (data: OSFertigationDTO[]) => {
     fertigationDispatch({
       type: 'SET',
@@ -37,9 +22,9 @@ export default function Orders() {
   }
 
   const  { trigger } = useServerData({
-    get: getServerData,
+    get: () => getOSFertigationUseCase.execute(),
     set: setState,
-    validate: formatValidate
+    validateSchema: OSFertigation
   })
 
   useEffect(() => {
