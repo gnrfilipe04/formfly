@@ -8,7 +8,7 @@ export class GetOSFertigationUseCase {
         private repository: SincronizationRepository,
     ) {}
 
-    execute(): Promise<Either<AxiosError, AxiosResponse<OSFertigationDTO[]>>> {
-        return this.repository.getOSFertigation();
+    execute(url: string): Promise<AxiosResponse<OSFertigationDTO[]>> {
+        return this.repository.getOSFertigation(url);
     }
 }

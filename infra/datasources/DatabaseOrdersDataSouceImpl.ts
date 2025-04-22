@@ -24,8 +24,8 @@ export class DatabaseOrdersDataSourceImpl  implements DatabaseOrdersDataSource {
     getOSSupply(): Promise<OSSupplyDTO[]> {
         return this.apiInstance.get('supply')
     }
-    getOSFertigation(): Promise<AxiosResponse<OSFertigationDTO[]>> {
-        return this.apiInstance.get('os_fertigation')
+    getOSFertigation(url: string): Promise<AxiosResponse<OSFertigationDTO[]>> {
+        return this.apiInstance.get(url)
     }
     sendOSPlant(osPlant: Record<string, OSPlantDTO>): Promise<void> {
         return this.apiInstance.post('plant')

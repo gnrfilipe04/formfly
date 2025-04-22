@@ -44,13 +44,8 @@ export class SincronizationRepositoryImpl implements SincronizationRepository {
         }
     }
 
-    async getOSFertigation(): Promise<Either<AxiosError, AxiosResponse<OSFertigationDTO[]>>> {
-        try {
-            const promise = await this.dataSource.getOSFertigation()
-            return right(promise)
-        } catch (error) {
-            return left(error as AxiosError)
-        }
+    async getOSFertigation(url: string): Promise<AxiosResponse<OSFertigationDTO[]>> {
+        return this.dataSource.getOSFertigation(url)
 
     }
 

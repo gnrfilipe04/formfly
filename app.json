@@ -25,6 +25,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "newArchEnabled": false,
       "package": "com.gnrfilipe04.formfly"
     },
     "web": {

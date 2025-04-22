@@ -11,7 +11,7 @@ export interface SincronizationRepository {
     getOSPlant(): Promise<OSPlantDTO[]>;
     getOSProduction(): Promise<OSProductionDTO[]>;
     getOSSupply(): Promise<OSSupplyDTO[]>;
-    getOSFertigation(): Promise<Either<AxiosError, AxiosResponse<OSFertigationDTO[]>>>;
+    getOSFertigation(url:string): Promise<AxiosResponse<OSFertigationDTO[]>>;
     sendOSPlant(osPlant: Record<string, OSPlantDTO>): Promise<void>;
     sendOSProduction(osProduction: Record<string, OSProductionDTO>): Promise<void>;
     sendOSSupply(osSupply: Record<string, OSSupplyDTO>): Promise<void>;

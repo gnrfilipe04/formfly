@@ -1,40 +1,23 @@
 import { useEffect } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Button, FlatList, StyleSheet, View } from 'react-native';
 import { ItemSeparator, Text, View as ViewThemed } from '@/components/Themed';
-import { getOSFertigationUseCase } from '@/di/Sync';
-import { useHomeReducers } from '@/reducers/home';
 import { Card } from '@/components/Card';
-import { OSFertigation } from '@/domain/entities/OSFertigation';
-import { OSFertigationDTO } from '@/domain/types/OSFertigationDTO';
-import { useServerData } from '@/hooks/useServerData';
+import { useFertigation } from '@/hooks/useFertigation';
 
 export default function Orders() {
-  const {
-    fertigationDispatch,
-    fertigationState
-  } = useHomeReducers()
-  
-  const setState = (data: OSFertigationDTO[]) => {
-    fertigationDispatch({
-      type: 'SET',
-      payload: data 
-    })
-  }
 
-  const  { trigger } = useServerData({
-    get: () => getOSFertigationUseCase.execute(),
-    set: setState,
-    validateSchema: OSFertigation
-  })
+  const fertigation = useFertigation()
 
   useEffect(() => {
-    trigger()
+    fertigation.getOrders.trigger()
   }, [])
+
+  if(fertigation.getOrders.isMutating) return <ActivityIndicator />
 
   return (
     <ViewThemed style={styles.container}>
       <FlatList
-        data={fertigationState.osFertigationList}
+        data={fertigation.data}
         keyExtractor={(item) => item.header.id}
         ListEmptyComponent={() => (
           <View style={{ alignItems: 'center', marginTop: 60}}>
