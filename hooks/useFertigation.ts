@@ -11,7 +11,7 @@ import z from 'zod'
 const FertigationSchema = z.array(OSFertigation)
 
 const fetcher = async (url: string): Promise<OSFertigationDTO[]> => {
-    const response = await api.get(url)
+    const response = await getOSFertigationUseCase.execute(url)
     const validation = FertigationSchema.safeParse(response.data)
     if (!validation.success) {
       throw validation.error
