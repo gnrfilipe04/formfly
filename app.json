@@ -15,6 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
+      "newArchEnabled": false,
       "bundleIdentifier": "com.gnrfilipe04.formfly",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false

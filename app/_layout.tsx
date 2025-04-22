@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from 'react-native';
 import { SWRConfig } from 'swr';
+import { StatusBar } from 'expo-status-bar';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -59,6 +60,7 @@ function RootLayoutNav() {
       }}
     >
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <StatusBar translucent hideTransitionAnimation='fade' networkActivityIndicatorVisible={true}/>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
