@@ -3,6 +3,7 @@ import { Text } from './Themed';
 import { OSHeaderDTO } from '@/src/domain/types/OSHeaderDTO';
 import { View } from './Themed'
 import { capitalize } from '@/src/utils/helpers';
+import { MaterialIcons } from '@expo/vector-icons';
 
 type CardProps = {
   item: OSHeaderDTO
@@ -12,13 +13,21 @@ export function Card({ item }: CardProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>nº {item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-      <View style={styles.footer}>
-        <Text>Tipo: {capitalize(item.type)}</Text>
-        <Text>
-          {new Date(item.createdAt).toLocaleDateString()}
-        </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <View style={{ flex: 1 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+            <Text style={styles.title}>nº {item.title}</Text>
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>{capitalize(item.type)}</Text>
+            </View>
+          </View>
+          <Text style={styles.description}>{item.description}</Text>
+          <View style={styles.footer}>
+            <MaterialIcons name="calendar-month" size={24} color="#666" />
+            <Text>{new Date(item.createdAt).toLocaleDateString()}</Text>
+          </View>
+        </View>
+        <MaterialIcons name="chevron-right" size={32} color="#666" />
       </View>
     </View>
   );
@@ -55,7 +64,18 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 4,
     marginTop: 8,
+  },
+  badge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    backgroundColor: '#2cab3b',
+  },
+  badgeText: {
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });

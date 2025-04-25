@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -58,7 +59,10 @@ function RootLayoutNav() {
         <Stack.Screen 
           name="(note)/note" 
           options={{ 
-            title: 'Apontamento', 
+            title: 'Apontamento',
+            headerRight: (props) => (
+              <MaterialIcons name="more-vert" size={24} color="#666" />
+            ), 
             headerBackButtonDisplayMode: 'minimal' 
           }} 
         />
