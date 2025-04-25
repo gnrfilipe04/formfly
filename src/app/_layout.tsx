@@ -61,7 +61,7 @@ function RootLayoutNav() {
           options={{ 
             title: 'Apontamento',
             headerRight: (props) => (
-              <MaterialIcons name="more-vert" size={24} color="#666" />
+              <MaterialIcons name="delete-outline" size={24} color="#cf3434" />
             ), 
             headerBackButtonDisplayMode: 'minimal' 
           }} 

@@ -1,12 +1,13 @@
 
 import { OSFertigationDTO } from "@/src/domain/types/OSFertigationDTO";
 import { OSHeaderDTO } from "@/src/domain/types/OSHeaderDTO";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { OSPlantDTO } from "@/src/domain/types/OSPlantDTO";
 import { OSProductionDTO } from "@/src/domain/types/OSProductionDTO";
 import { OSSupplyDTO } from "@/src/domain/types/OSSupplyDTO";
 import { create } from "zustand";
 import uuid from "uuid";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface State {
     osList: Record<string, OSFertigationDTO | OSPlantDTO | OSProductionDTO | OSSupplyDTO>
@@ -86,6 +87,7 @@ export const useOSStore = create<State & Actions>()(
       }),
       {
         name: 'os-store',
+        storage: createJSONStorage(() => AsyncStorage),
       }
     )
   )
