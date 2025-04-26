@@ -8,17 +8,16 @@ import { OSFertigation } from '@/src/domain/entities/OSFertigation';
 import { useServerData } from '@/src/hooks/useServerData';
 import { useRouter } from 'expo-router';
 import z from 'zod'
+import { useOSStore } from '@/src/store/useOSStore';
 
 export default function Orders() {
   const router = useRouter()
 
-  const {
-    fertigationStore
-  } = useHomeReducers()
+  const osStore = useOSStore()
 
-  const  { trigger, loading } = useServerData<typeof fertigationStore.orders>({
+  const  { trigger, loading } = useServerData<typeof osStore.orders>({
     get: () => getOSFertigationUseCase.execute(),
-    set: fertigationStore.setOrders,
+    set: osStore.setOrders,
     validateSchema: z.record(z.string(), OSFertigation)
   })
 
@@ -31,7 +30,7 @@ export default function Orders() {
   return (
     <ViewThemed style={styles.container}>
       <FlatList
-        data={fertigationStore.getOrders()}
+        data={Object.values(osStore.orders)}
         keyExtractor={(item) => item.header.id}
         ListEmptyComponent={() => (
           <View style={{ alignItems: 'center', marginTop: 60}}>

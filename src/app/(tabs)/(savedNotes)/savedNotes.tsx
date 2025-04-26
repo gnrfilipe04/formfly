@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import { Card } from '@/src/components/Card';
 import { useFertigationOSStore } from '@/src/store/useFertigationOSStore';
 
-export default function TabTwoScreen() {
+export default function SavedNotes() {
   const router = useRouter()
   const fertigationStore = useFertigationOSStore()
 

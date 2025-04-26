@@ -13,6 +13,7 @@ import { Text } from "./Themed";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { v4 as uuidv4 } from 'uuid';
 import { capitalize } from "../utils/helpers";
+import { useOSStore } from "../store/useOSStore";
 
 type FertigationFormProps = {
     orderId: string
@@ -21,7 +22,8 @@ type FertigationFormProps = {
 
 export function FertigationForm({ noteId, orderId }: FertigationFormProps){
 
-    const { orders, setNewNote, notes } = useFertigationOSStore()
+    const { setNewNote, notes } = useFertigationOSStore()
+    const { orders } = useOSStore()
     const [showDatePicker, setShowDatePicker] = useState(false);
     const order = orders[orderId]
     const note = noteId ? notes[noteId] : null
@@ -148,10 +150,9 @@ export function FertigationForm({ noteId, orderId }: FertigationFormProps){
                                     toSend: true
                                 }
                             }
-                            console.log({ newNote })
                             setNewNote(newNote)
 
-                            router.push({ pathname: '/(tabs)/(two)/two' })
+                            router.push({ pathname: '/(tabs)/(savedNotes)/savedNotes', })
                         }}
                     >
                         <Text style={styles.buttonText}>Salvar</Text>

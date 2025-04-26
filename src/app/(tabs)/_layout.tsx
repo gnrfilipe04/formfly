@@ -38,7 +38,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(two)/two"
+        name="(savedNotes)/savedNotes"
         options={{
           title: 'Apontamentos',
           headerSearchBarOptions: {
