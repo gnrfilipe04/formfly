@@ -7,24 +7,30 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 type CardProps = {
   item: OSHeaderDTO
+  showSketchBadge?: boolean
 }
 
-export function Card({ item }: CardProps) {
+export function Card({ item, showSketchBadge = false }: CardProps) {
 
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
-            <Text style={styles.title}>nº {item.title}</Text>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>{capitalize(item.type)}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Text style={styles.title}>nº {item.title}</Text>
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>{capitalize(item.type)}</Text>
+              </View>
             </View>
+            {showSketchBadge && <View style={styles.rightBadge}>
+                <Text style={styles.badgeText}>Rascunho</Text>
+            </View>}
           </View>
           <Text style={styles.description}>{item.description}</Text>
           <View style={styles.footer}>
             <MaterialIcons name="calendar-month" size={24} color="#666" />
-            <Text>{new Date(item.createdAt).toLocaleDateString()}</Text>
+            <Text>{new Date(item.createdAt).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })}</Text>
           </View>
         </View>
         <MaterialIcons name="chevron-right" size={32} color="#666" />
@@ -73,6 +79,13 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 4,
     backgroundColor: '#2cab3b',
+  },
+  rightBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#5c6a73',
   },
   badgeText: {
     fontSize: 12,

@@ -1,31 +1,37 @@
-import { StyleSheet } from 'react-native';
+import { FlatList, Pressable, StyleSheet, View as ViewThemed } from 'react-native';
 
-import EditScreenInfo from '@/src/components/EditScreenInfo';
-import { Text, View } from '@/src/components/Themed';
+import { ItemSeparator, Text, View } from '@/src/components/Themed';
+import { useRouter } from 'expo-router';
+import { Card } from '@/src/components/Card';
+import { useFertigationOSStore } from '@/src/store/useFertigationOSStore';
 
 export default function TabTwoScreen() {
+  const router = useRouter()
+  const fertigationStore = useFertigationOSStore()
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
-    </View>
+    <ViewThemed style={styles.container}>
+      <FlatList
+        data={fertigationStore.getNotes()}
+        keyExtractor={(item) => item.id}
+        ListEmptyComponent={() => (
+          <View style={{ alignItems: 'center', marginTop: 60}}>
+            <Text>Nenhum apontamento encontrado</Text>
+          </View>
+        )}
+        ItemSeparatorComponent={() => <ItemSeparator />} 
+        renderItem={({ item }) => (
+          <Pressable onPress={() => router.push({ pathname: '/(note)/note', params: { id: item.order.header.id, noteId: item.id } })}>
+            <Card item={item.order.header} showSketchBadge={item.data.toSend} />
+          </Pressable>
+        )}
+      />
+    </ViewThemed>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+  }
 });
