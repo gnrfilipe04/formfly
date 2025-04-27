@@ -5,7 +5,31 @@
     "paths": {
       "@/*": [
         "./*"
-      ]
+      ],
+      "@/domain/*": [
+        "./src/domain/*"
+      ],
+      "@/store/*": [
+        "./src/store/*"
+      ],
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "@/utils/*": [
+        "./src/utils/*"
+      ],
+      "@/types/*": [
+        "./src/domain/types/*"
+      ],
+      "@/entities/*": [
+        "./src/domain/entities/*"
+      ],
+      "@/hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@/services/*": [
+        "./src/services/*"
+      ],
     }
   },
   "include": [

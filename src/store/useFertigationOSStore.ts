@@ -14,6 +14,7 @@ interface Actions {
     setNotes: (value: Record<string, FertigationNoteDTO>) => void
     getNotes: () => FertigationNoteDTO[]
     setNewNote: (value: FertigationNoteDTO) => void
+    removeNote: (id: string) => void
 }
 
 export const useFertigationOSStore = create<State & Actions>()(
@@ -22,6 +23,13 @@ export const useFertigationOSStore = create<State & Actions>()(
         orders: {},
         osInEdit: null,
         notes: {},
+        removeNote(id) {
+            const notes = get().notes
+            if (notes[id]) {
+                delete notes[id]
+                set({ notes })
+            }
+        },
         setNewNote(value) {
             const newNote = { [value.id]: value }
             const notes = get().notes

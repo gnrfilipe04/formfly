@@ -1,17 +1,13 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+import { useOSStore } from '@/src/store/useOSStore';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
-
-const searchBarOptions = {
-  cancelButtonText: 'Cancelar',
-  placeholder: 'Pesquisar',
 }
 
 export default function TabLayout() {
@@ -30,10 +26,6 @@ export default function TabLayout() {
         name="(orders)/index"
         options={{
           title: 'Ordens',
-          headerSearchBarOptions: {
-            ...searchBarOptions,
-            onChangeText: (e) => console.log(e.nativeEvent.text)
-          },
           tabBarIcon: ({ color }) => <TabBarIcon name="th-list" color={color} />
         }}
       />
@@ -41,10 +33,6 @@ export default function TabLayout() {
         name="(savedNotes)/savedNotes"
         options={{
           title: 'Apontamentos',
-          headerSearchBarOptions: {
-            ...searchBarOptions,
-            onChangeText: (e) => console.log(e.nativeEvent.text)
-          },
           tabBarIcon: ({ color }) => <TabBarIcon name="file-text" color={color} />
         }} />
     </Tabs>

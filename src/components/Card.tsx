@@ -8,9 +8,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 type CardProps = {
   item: OSHeaderDTO
   showSketchBadge?: boolean
+  sketchText?: string
 }
 
-export function Card({ item, showSketchBadge = false }: CardProps) {
+export function Card({ 
+  item, 
+  sketchText = '',
+  showSketchBadge = false }: CardProps) {
 
   return (
     <View style={styles.container}>
@@ -24,7 +28,7 @@ export function Card({ item, showSketchBadge = false }: CardProps) {
               </View>
             </View>
             {showSketchBadge && <View style={styles.rightBadge}>
-                <Text style={styles.badgeText}>Rascunho</Text>
+                <Text style={styles.badgeText}>{sketchText}</Text>
             </View>}
           </View>
           <Text style={styles.description}>{item.description}</Text>

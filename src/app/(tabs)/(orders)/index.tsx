@@ -2,16 +2,18 @@ import { useEffect } from 'react';
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { ItemSeparator, Text, View as ViewThemed } from '@/src/components/Themed';
 import { getOSFertigationUseCase } from '@/src/di/Sync';
-import { useHomeReducers } from '@/src/reducers/home';
 import { Card } from '@/src/components/Card';
 import { OSFertigation } from '@/src/domain/entities/OSFertigation';
 import { useServerData } from '@/src/hooks/useServerData';
-import { useRouter } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import z from 'zod'
 import { useOSStore } from '@/src/store/useOSStore';
+import { v4 as uuidv4 } from 'uuid';
+import { HeaderSearchBarOptions } from '@react-navigation/elements';
 
 export default function Orders() {
   const router = useRouter()
+  const navigation = useNavigation()
 
   const osStore = useOSStore()
 
@@ -20,6 +22,18 @@ export default function Orders() {
     set: osStore.setOrders,
     validateSchema: z.record(z.string(), OSFertigation)
   })
+
+  const searchBarOptions: HeaderSearchBarOptions = {
+    cancelButtonText: 'Cancelar',
+    placeholder: 'Pesquisar',
+    onChangeText: (e) => osStore.setFilter(e.nativeEvent.text)
+  }
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerSearchBarOptions: searchBarOptions
+    })
+  }, [navigation])
 
   useEffect(() => {
     trigger()
@@ -30,7 +44,7 @@ export default function Orders() {
   return (
     <ViewThemed style={styles.container}>
       <FlatList
-        data={Object.values(osStore.orders)}
+        data={osStore.getOrders(osStore.filter)}
         keyExtractor={(item) => item.header.id}
         ListEmptyComponent={() => (
           <View style={{ alignItems: 'center', marginTop: 60}}>
@@ -39,7 +53,7 @@ export default function Orders() {
         )}
         ItemSeparatorComponent={() => <ItemSeparator />} 
         renderItem={({ item }) => (
-          <Pressable onPress={() => router.push({ pathname: '/(note)/note', params: { id: item.header.id } })}>
+          <Pressable onPress={() => router.push({ pathname: '/(note)/note', params: { id: item.header.id, noteId: uuidv4() } })}>
             <Card item={item.header}/>
           </Pressable>
         )}

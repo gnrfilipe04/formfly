@@ -6,3 +6,5 @@ export const OSFertigation= z.object({
     locale: z.string(),
     quantity: z.number(),
 });
+
+export type OSFertigationDTO = z.infer<typeof OSFertigation>;

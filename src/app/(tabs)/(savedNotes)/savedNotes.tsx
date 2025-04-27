@@ -4,10 +4,17 @@ import { ItemSeparator, Text, View } from '@/src/components/Themed';
 import { useRouter } from 'expo-router';
 import { Card } from '@/src/components/Card';
 import { useFertigationOSStore } from '@/src/store/useFertigationOSStore';
+import { FertigationNoteDTO } from '@/src/domain/types/FertigationNoteDTO';
 
 export default function SavedNotes() {
   const router = useRouter()
   const fertigationStore = useFertigationOSStore()
+
+  const badgeText = (item: FertigationNoteDTO) => {
+    if (item.data.isSkecth) return 'Rascunho'
+    if (item.data.toSend) return 'Pronto'
+    return ''
+  }
 
   return (
     <ViewThemed style={styles.container}>
@@ -22,7 +29,11 @@ export default function SavedNotes() {
         ItemSeparatorComponent={() => <ItemSeparator />} 
         renderItem={({ item }) => (
           <Pressable onPress={() => router.push({ pathname: '/(note)/note', params: { id: item.order.header.id, noteId: item.id } })}>
-            <Card item={item.order.header} showSketchBadge={item.data.toSend} />
+            <Card 
+              item={item.order.header} 
+              showSketchBadge={true} 
+              sketchText={badgeText(item)}
+            />
           </Pressable>
         )}
       />

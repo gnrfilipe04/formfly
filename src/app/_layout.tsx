@@ -60,10 +60,7 @@ function RootLayoutNav() {
         <Stack.Screen 
           name="(note)/note" 
           options={{ 
-            title: 'Apontamento',
-            headerRight: (props) => (
-              <MaterialIcons name="delete-outline" size={24} color="#cf3434" />
-            ), 
+            title: 'Apontamento', 
             headerBackButtonDisplayMode: 'minimal' 
           }} 
         />
