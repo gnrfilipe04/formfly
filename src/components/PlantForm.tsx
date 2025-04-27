@@ -47,7 +47,7 @@ export function PlantForm({ noteId, orderId }: PlantFormProps) {
     const { field: dateField } = useController({
         name: 'date',
         control: methods.control,
-        defaultValue: new Date(),
+        defaultValue: new Date().toISOString(),
     })
 
     return (
@@ -86,11 +86,11 @@ export function PlantForm({ noteId, orderId }: PlantFormProps) {
                                 style={[styles.input, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}
                                 onPress={() => setShowDatePicker(true)}
                             >
-                                <Text>{dateField.value.toLocaleDateString()}</Text>
+                                <Text>{new Date(dateField.value).toLocaleDateString()}</Text>
                                 <MaterialIcons name="calendar-today" size={20} color="#666" />
                             </Pressable>
                             {showDatePicker && <DateTimePicker
-                                value={dateField.value}
+                                value={new Date(dateField.value)}
                                 mode="date"
                                 display="calendar"
                                 onChange={(event, selectedDate) => {

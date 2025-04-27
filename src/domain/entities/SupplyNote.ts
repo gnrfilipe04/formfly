@@ -3,7 +3,7 @@ import { OSSupply } from './OSSupply';
 
 export const supplyFormSchema = z.object({
     operatorName: z.string().min(1, "Nome do operador é obrigatório"),
-    date: z.date(),
+    date: z.string(),
     quantity: z.number().min(0, "Quantidade deve ser maior que 0"),
     internalCode: z.boolean(),
     observations: z.string().optional(),

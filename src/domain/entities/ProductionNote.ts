@@ -3,7 +3,7 @@ import { OSProduction } from './OSProduction';
 
 export const productionFormSchema = z.object({
     operatorName: z.string().min(1, "Nome do operador é obrigatório"),
-    date: z.date(),
+    date: z.string(),
     quantity: z.number().min(0, "Quantidade deve ser maior que 0"),
     equipment: z.string().min(1, "Equipamento é obrigatório"),
     type: z.enum(["muda", "semente"], {

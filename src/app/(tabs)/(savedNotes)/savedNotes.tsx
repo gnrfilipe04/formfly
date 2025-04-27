@@ -3,12 +3,24 @@ import { FlatList, Pressable, StyleSheet, View as ViewThemed } from 'react-nativ
 import { ItemSeparator, Text, View } from '@/src/components/Themed';
 import { useRouter } from 'expo-router';
 import { Card } from '@/src/components/Card';
-import { useFertigationOSStore } from '@/src/store/useFertigationOSStore';
 import { FertigationNoteDTO } from '@/src/domain/types/FertigationNoteDTO';
+import { useNoteStore } from '@/src/store/useNoteStore';
+import { useEffect } from 'react';
+import { useFertigationOSStore } from '@/src/store/useFertigationOSStore';
+import { useProductionOSStore } from '@/src/store/useProductionOSStore';
+import { useSupplyOSStore } from '@/src/store/useSupplyOSStore';
+import { usePlantOSStore } from '@/src/store/usePlantOSStore';
+import { SuppyNoteDTO } from '@/src/domain/types/SupplyNoteDTO';
+import { ProductionNoteDTO } from '@/src/domain/types/ProductionNoteDTO';
+import { PlantNoteDTO } from '@/src/domain/types/PlantNoteDTO';
 
 export default function SavedNotes() {
   const router = useRouter()
+  const noteStore = useNoteStore()
   const fertigationStore = useFertigationOSStore()
+  const plantStore = usePlantOSStore()
+  const productionStore = useProductionOSStore()
+  const supplyStore = useSupplyOSStore()
 
   const badgeText = (item: FertigationNoteDTO) => {
     if (item.data.isSkecth) return 'Rascunho'
@@ -16,10 +28,21 @@ export default function SavedNotes() {
     return ''
   }
 
+  useEffect(() => {
+    const notes = noteStore.unionNotes(
+      fertigationStore.notes,
+      plantStore.notes,
+      productionStore.notes,
+      supplyStore.notes
+    )
+
+    noteStore.setNotes(notes)
+  }, [])
+
   return (
     <ViewThemed style={styles.container}>
       <FlatList
-        data={fertigationStore.getNotes()}
+        data={noteStore.getNotes(noteStore.filter)}
         keyExtractor={(item) => item.id}
         ListEmptyComponent={() => (
           <View style={{ alignItems: 'center', marginTop: 60}}>
