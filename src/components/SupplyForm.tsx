@@ -178,7 +178,8 @@ export function SupplyForm({ noteId, orderId }: SupplyFormProps) {
                                     quantity: methods.getValues('quantity'),
                                     internalCode: methods.getValues('internalCode'),
                                     observations: methods.getValues('observations'),
-                                    toSend: true
+                                    toSend: false,
+                                    isSkecth: true
                                 }
                             }
                             setNewNote(newNote)

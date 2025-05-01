@@ -181,7 +181,8 @@ export function PlantForm({ noteId, orderId }: PlantFormProps) {
                                     quantity: methods.getValues('quantity'),
                                     type: methods.getValues('type'),
                                     observations: methods.getValues('observations'),
-                                    toSend: true
+                                    toSend: false,
+                                    isSkecth: true
                                 }
                             }
                             setNewNote(newNote)

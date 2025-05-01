@@ -15,6 +15,30 @@
             "description": "Ser executada no período da tarde",
             "createdAt": "2024-01-10T12:00:00.000Z",
             "updatedAt": null
+        },
+        {
+            "id": "3",
+            "title": "987654",
+            "type": "production",
+            "description": "Produção de mudas",
+            "createdAt": "2024-01-11T09:00:00.000Z",
+            "updatedAt": null
+        },
+        {
+            "id": "4",
+            "title": "123456",
+            "type": "plant",
+            "description": "Plantio de mudas",
+            "createdAt": "2024-01-12T10:00:00.000Z",
+            "updatedAt": null
+        },
+        {
+            "id": "5",
+            "title": "789012",
+            "type": "supply",
+            "description": "Fornecimento de insumos",
+            "createdAt": "2024-01-13T11:00:00.000Z",
+            "updatedAt": null
         }
     ],
     "os_fertigation": [
@@ -42,5 +66,53 @@
             "locale": "Fazenda Rio Preto",
             "quantity": 1
         }
-    ]       
+    ],
+    "os_production": [
+        {
+            "header": {
+                "id": "3",
+                "title": "987654",
+                "type": "production",
+                "description": "Produção de mudas",
+                "createdAt": "2024-01-11T09:00:00.000Z",
+                "updatedAt": null
+            },
+            "locale": "Fazenda São João",
+            "quantity": 1000,
+            "equipment": "Estufa 1",
+            "date": "2024-01-15T08:00:00.000Z",
+            "type": "muda"
+        }
+    ],
+    "os_plant": [
+        {
+            "header": {
+                "id": "4",
+                "title": "123456",
+                "type": "plant",
+                "description": "Plantio de mudas",
+                "createdAt": "2024-01-12T10:00:00.000Z",
+                "updatedAt": null
+            },
+            "locale": "Fazenda Boa Vista",
+            "quantity": 500,
+            "type": "muda"
+        }
+    ],
+    "os_supply": [
+        {
+            "header": {
+                "id": "5",
+                "title": "789012",
+                "type": "supply",
+                "description": "Fornecimento de insumos",
+                "createdAt": "2024-01-13T11:00:00.000Z",
+                "updatedAt": null
+            },
+            "locale": "Fazenda Santa Clara",
+            "quantity": 50,
+            "internalCode": true,
+            "date": "2024-01-16T09:00:00.000Z"
+        }
+    ]
 }

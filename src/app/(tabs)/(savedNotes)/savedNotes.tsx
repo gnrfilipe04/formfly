@@ -1,20 +1,20 @@
 import { FlatList, Pressable, StyleSheet, View as ViewThemed } from 'react-native';
 
 import { ItemSeparator, Text, View } from '@/src/components/Themed';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useNavigation, useRouter } from 'expo-router';
 import { Card } from '@/src/components/Card';
 import { FertigationNoteDTO } from '@/src/domain/types/FertigationNoteDTO';
 import { useNoteStore } from '@/src/store/useNoteStore';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useFertigationOSStore } from '@/src/store/useFertigationOSStore';
 import { useProductionOSStore } from '@/src/store/useProductionOSStore';
 import { useSupplyOSStore } from '@/src/store/useSupplyOSStore';
 import { usePlantOSStore } from '@/src/store/usePlantOSStore';
-import { SuppyNoteDTO } from '@/src/domain/types/SupplyNoteDTO';
-import { ProductionNoteDTO } from '@/src/domain/types/ProductionNoteDTO';
-import { PlantNoteDTO } from '@/src/domain/types/PlantNoteDTO';
+import { HeaderSearchBarOptions } from '@react-navigation/elements';
+
 
 export default function SavedNotes() {
+  const navigation = useNavigation()
   const router = useRouter()
   const noteStore = useNoteStore()
   const fertigationStore = useFertigationOSStore()
@@ -28,16 +28,32 @@ export default function SavedNotes() {
     return ''
   }
 
-  useEffect(() => {
-    const notes = noteStore.unionNotes(
-      fertigationStore.notes,
-      plantStore.notes,
-      productionStore.notes,
-      supplyStore.notes
-    )
+  const searchBarOptions: HeaderSearchBarOptions = {
+    cancelButtonText: 'Cancelar',
+    placeholder: 'Pesquisar',
+    onChangeText: (e) => noteStore.setFilter(e.nativeEvent.text)
+  }
 
-    noteStore.setNotes(notes)
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      const notes = noteStore.unionNotes(
+        fertigationStore.notes,
+        plantStore.notes,
+        productionStore.notes,
+        supplyStore.notes
+      )
+  
+      noteStore.setNotes(notes)
+
+      return () => {};
+    }, [])
+  );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerSearchBarOptions: searchBarOptions
+    })
+  }, [navigation])
 
   return (
     <ViewThemed style={styles.container}>

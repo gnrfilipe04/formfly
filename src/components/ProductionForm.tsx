@@ -196,7 +196,8 @@ export function ProductionForm({ noteId, orderId }: ProductionFormProps) {
                                     equipment: methods.getValues('equipment'),
                                     type: methods.getValues('type'),
                                     observations: methods.getValues('observations'),
-                                    toSend: true
+                                    toSend: false,
+                                    isSkecth: true
                                 }
                             }
                             setNewNote(newNote)

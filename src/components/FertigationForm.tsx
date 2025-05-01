@@ -35,9 +35,11 @@ export function FertigationForm({ noteId, orderId }: FertigationFormProps){
         resolver: zodResolver(fertigationFormSchema),
         defaultValues: {
             operatorName: note?.data.operatorName,
-            date: note?.data.date,
             quantity: note?.data.quantity,
             observations: note?.data.observations,
+            date: note?.data.date ? note?.data.date : new Date().toISOString(),
+            isSkecth: note?.data.isSkecth,
+            toSend: note?.data.toSend
         }
     })
 
@@ -48,7 +50,6 @@ export function FertigationForm({ noteId, orderId }: FertigationFormProps){
     const { field: dateField } = useController({
         name: 'date',
         control: methods.control,
-        defaultValue: new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }),
     })
 
     useEffect(() => {
@@ -164,7 +165,8 @@ export function FertigationForm({ noteId, orderId }: FertigationFormProps){
                                     date: methods.getValues('date'),
                                     quantity: methods.getValues('quantity'),
                                     observations: methods.getValues('observations'),
-                                    toSend: true
+                                    toSend: false,
+                                    isSkecth: true
                                 }
                             }
                             setNewNote(newNote)
