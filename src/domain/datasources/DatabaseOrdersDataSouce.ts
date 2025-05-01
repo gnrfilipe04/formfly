@@ -9,9 +9,9 @@ import { Either } from 'fp-ts/lib/Either'
 
 export interface DatabaseOrdersDataSource {
     getOSHeader(): Promise<AxiosResponse<OSHeaderDTO[]>>;
-    getOSPlant(): Promise<OSPlantDTO[]>;
-    getOSProduction(): Promise<OSProductionDTO[]>;
-    getOSSupply(): Promise<OSSupplyDTO[]>;
+    getOSPlant(): Promise<Either<AppError, AxiosResponse<OSPlantDTO[]>>>;
+    getOSProduction(): Promise<Either<AppError, AxiosResponse<OSProductionDTO[]>>>;
+    getOSSupply(): Promise<Either<AppError, AxiosResponse<OSSupplyDTO[]>>>;
     getOSFertigation(): Promise<Either<AppError, AxiosResponse<OSFertigationDTO[]>>>;
     sendOSPlant(osPlant: Record<string, OSPlantDTO>): Promise<void>;
     sendOSProduction(osProduction: Record<string, OSProductionDTO>): Promise<void>;

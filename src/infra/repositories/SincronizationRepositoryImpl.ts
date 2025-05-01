@@ -21,15 +21,11 @@ export class SincronizationRepositoryImpl implements SincronizationRepository {
         }   
     }
 
-    async getOSPlant(): Promise<OSPlantDTO[]> {
-        try {
-            return this.dataSource.getOSPlant();
-        } catch (error) {
-            throw error;
-        }
+    async getOSPlant(): Promise<Either<AppError, AxiosResponse<OSPlantDTO[]>>> {
+        return this.dataSource.getOSPlant();
     }
 
-    async getOSProduction(): Promise<OSProductionDTO[]> {
+    async getOSProduction(): Promise<Either<AppError, AxiosResponse<OSProductionDTO[]>>> {
         try {
             return this.dataSource.getOSProduction();
         } catch (error) {
@@ -37,7 +33,7 @@ export class SincronizationRepositoryImpl implements SincronizationRepository {
         }
     }
 
-    async getOSSupply(): Promise<OSSupplyDTO[]> {
+    async getOSSupply(): Promise<Either<AppError, AxiosResponse<OSSupplyDTO[]>>> {
         try {
             return this.dataSource.getOSSupply();
         } catch (error) {

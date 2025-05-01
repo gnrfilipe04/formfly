@@ -16,6 +16,7 @@ interface Actions {
   setFilter: (value: string) => void
   getOrders: (filter?: string) => OSFertigationDTO[] | OSPlantDTO[] | OSProductionDTO[] | OSSupplyDTO[]
   setOrders: (value:Record<string, OSFertigationDTO | OSPlantDTO | OSProductionDTO | OSSupplyDTO>) => void
+  mergeOrders: (value:Record<string, OSFertigationDTO | OSPlantDTO | OSProductionDTO | OSSupplyDTO>) => void
 }
 
 export const useOSStore = create<State & Actions>()(
@@ -31,6 +32,9 @@ export const useOSStore = create<State & Actions>()(
         },
         getOrders() {
           return Object.values(get().orders).filter((order) => order.header.title.includes(get().filter))
+        },
+        mergeOrders(value) {
+          set({ orders: { ...get().orders, ...value } })
         }
       }),
       {

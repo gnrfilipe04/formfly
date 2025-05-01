@@ -1,43 +1,30 @@
-import { useEffect } from 'react';
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { ItemSeparator, Text, View as ViewThemed } from '@/src/components/Themed';
-import { getOSFertigationUseCase } from '@/src/di/Sync';
 import { Card } from '@/src/components/Card';
-import { OSFertigation } from '@/src/domain/entities/OSFertigation';
-import { useServerData } from '@/src/hooks/useServerData';
-import { useNavigation, useRouter } from 'expo-router';
-import z from 'zod'
-import { useOSStore } from '@/src/store/useOSStore';
+import { useRouter } from 'expo-router';
 import { v4 as uuidv4 } from 'uuid';
-import { HeaderSearchBarOptions } from '@react-navigation/elements';
+import { RefreshControl } from 'react-native';
+import { useOrdersController } from '@/src/domain/ui/controllers/useOrdersController';
 
 export default function Orders() {
+
   const router = useRouter()
-  const navigation = useNavigation()
 
-  const osStore = useOSStore()
+  const { loading, trigger, osStore } = useOrdersController()
 
-  const  { trigger, loading } = useServerData<typeof osStore.orders>({
-    get: () => getOSFertigationUseCase.execute(),
-    set: osStore.setOrders,
-    validateSchema: z.record(z.string(), OSFertigation)
-  })
-
-  const searchBarOptions: HeaderSearchBarOptions = {
-    cancelButtonText: 'Cancelar',
-    placeholder: 'Pesquisar',
-    onChangeText: (e) => osStore.setFilter(e.nativeEvent.text)
+  const badgeColors = {
+    plant: '#c233af',
+    production: '#257ed1',
+    supply: '#de7b25',
+    fertigation: '#2cab3b',
   }
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerSearchBarOptions: searchBarOptions
-    })
-  }, [navigation])
-
-  useEffect(() => {
-    trigger()
-  }, [])
+  const badgeTextValues = {
+    plant: 'Plantação',
+    production: 'Produção',
+    supply: 'Insumos',
+    fertigation: 'Fertirrigação',
+  }
 
   if(loading) return <ActivityIndicator />
 
@@ -46,6 +33,7 @@ export default function Orders() {
       <FlatList
         data={osStore.getOrders(osStore.filter)}
         keyExtractor={(item) => item.header.id}
+        refreshControl={<RefreshControl refreshing={loading} onRefresh={trigger} />}
         ListEmptyComponent={() => (
           <View style={{ alignItems: 'center', marginTop: 60}}>
             <Text>Nenhuma ordem de serviço encontrada</Text>
@@ -54,7 +42,11 @@ export default function Orders() {
         ItemSeparatorComponent={() => <ItemSeparator />} 
         renderItem={({ item }) => (
           <Pressable onPress={() => router.push({ pathname: '/(note)/note', params: { id: item.header.id, noteId: uuidv4() } })}>
-            <Card item={item.header}/>
+            <Card 
+              item={item.header}
+              badgeTextValue={badgeTextValues[item.header.type]}
+              badgeColor={badgeColors[item.header.type]}
+            />
           </Pressable>
         )}
       />

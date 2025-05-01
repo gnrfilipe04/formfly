@@ -1,4 +1,4 @@
-import { StyleSheet,  } from 'react-native';
+import { ColorValue, StyleSheet,  } from 'react-native';
 import { Text } from './Themed';
 import { OSHeaderDTO } from '@/src/domain/types/OSHeaderDTO';
 import { View } from './Themed'
@@ -9,12 +9,17 @@ type CardProps = {
   item: OSHeaderDTO
   showSketchBadge?: boolean
   sketchText?: string
+  badgeTextValue: string
+  badgeColor: ColorValue
 }
 
 export function Card({ 
   item, 
   sketchText = '',
-  showSketchBadge = false }: CardProps) {
+  showSketchBadge = false,
+  badgeTextValue,
+  badgeColor
+}: CardProps) {
 
   return (
     <View style={styles.container}>
@@ -23,8 +28,8 @@ export function Card({
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Text style={styles.title}>nº {item.title}</Text>
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>{capitalize(item.type)}</Text>
+              <View style={[styles.badge, { backgroundColor: badgeColor }]}>
+                <Text style={styles.badgeText}>{capitalize(badgeTextValue)}</Text>
               </View>
             </View>
             {showSketchBadge && <View style={styles.rightBadge}>
@@ -82,7 +87,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
-    backgroundColor: '#2cab3b',
   },
   rightBadge: {
     paddingHorizontal: 8,

@@ -1,6 +1,6 @@
 import { DatabaseOrdersDataSource } from "@/src/domain/datasources/DatabaseOrdersDataSouce";
 import { OSFertigation } from "@/src/domain/entities/OSFertigation";
-import { OSPlantDTO } from "@/src/domain/entities/OSPlant";
+import { OSPlant, OSPlantDTO } from "@/src/domain/entities/OSPlant";
 import { OSProductionDTO } from "@/src/domain/entities/OSProduction";
 import { OSSupplyDTO } from "@/src/domain/entities/OSSupply";
 import { OSFertigationDTO } from "@/src/domain/types/OSFertigationDTO";
@@ -17,13 +17,24 @@ export class DatabaseOrdersDataSourceImpl  implements DatabaseOrdersDataSource {
     async getOSHeader(): Promise<AxiosResponse<OSHeaderDTO[]>> {
         return await this.apiInstance.get('os_header')
     }
-    getOSPlant(): Promise<OSPlantDTO[]> {
-        return this.apiInstance.get('plant')
+    async getOSPlant(): Promise<Either<AppError, AxiosResponse<OSPlantDTO[]>>> {
+        try {
+            const response = await this.apiInstance.get<OSPlantDTO[]>('os_plant');
+            const parsed = z.array(OSPlant).safeParse(response.data);
+
+            if (!parsed.success) {
+                return left(AppError.fromZod(parsed.error));
+            }
+
+            return right({ ...response, data: response.data });
+        } catch (error) {
+            return left(AppError.fromAxios(error as AxiosError));
+        }
     }
-    getOSProduction(): Promise<OSProductionDTO[]> {
+    async getOSProduction(): Promise<Either<AppError, AxiosResponse<OSProductionDTO[]>>> {
         return this.apiInstance.get('production')
     }
-    getOSSupply(): Promise<OSSupplyDTO[]> {
+    async getOSSupply(): Promise<Either<AppError, AxiosResponse<OSSupplyDTO[]>>> {
         return this.apiInstance.get('supply')
     }
     async getOSFertigation(): Promise<Either<AppError, AxiosResponse<OSFertigationDTO[]>>> {
