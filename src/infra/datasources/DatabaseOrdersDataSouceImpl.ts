@@ -1,8 +1,8 @@
 import { DatabaseOrdersDataSource } from "@/src/domain/datasources/DatabaseOrdersDataSouce";
 import { OSFertigation } from "@/src/domain/entities/OSFertigation";
 import { OSPlant, OSPlantDTO } from "@/src/domain/entities/OSPlant";
-import { OSProductionDTO } from "@/src/domain/entities/OSProduction";
-import { OSSupplyDTO } from "@/src/domain/entities/OSSupply";
+import { OSProduction, OSProductionDTO } from "@/src/domain/entities/OSProduction";
+import { OSSupply, OSSupplyDTO } from "@/src/domain/entities/OSSupply";
 import { OSFertigationDTO } from "@/src/domain/types/OSFertigationDTO";
 import { OSHeaderDTO } from "@/src/domain/types/OSHeaderDTO";
 import { AppError } from "@/src/error/AppError";
@@ -32,10 +32,32 @@ export class DatabaseOrdersDataSourceImpl  implements DatabaseOrdersDataSource {
         }
     }
     async getOSProduction(): Promise<Either<AppError, AxiosResponse<OSProductionDTO[]>>> {
-        return this.apiInstance.get('production')
+        try {
+            const response = await this.apiInstance.get<OSProductionDTO[]>('os_production');
+            const parsed = z.array(OSProduction).safeParse(response.data);
+
+            if (!parsed.success) {
+                return left(AppError.fromZod(parsed.error));
+            }
+
+            return right({ ...response, data: response.data });
+        } catch (error) {
+            return left(AppError.fromAxios(error as AxiosError));
+        }
     }
     async getOSSupply(): Promise<Either<AppError, AxiosResponse<OSSupplyDTO[]>>> {
-        return this.apiInstance.get('supply')
+        try {
+            const response = await this.apiInstance.get<OSSupplyDTO[]>('os_supply');
+            const parsed = z.array(OSSupply).safeParse(response.data);
+
+            if (!parsed.success) {
+                return left(AppError.fromZod(parsed.error));
+            }
+
+            return right({ ...response, data: response.data });
+        } catch (error) {
+            return left(AppError.fromAxios(error as AxiosError));
+        }
     }
     async getOSFertigation(): Promise<Either<AppError, AxiosResponse<OSFertigationDTO[]>>> {
         try {

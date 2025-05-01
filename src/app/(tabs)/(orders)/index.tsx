@@ -20,9 +20,9 @@ export default function Orders() {
   }
 
   const badgeTextValues = {
-    plant: 'Plantação',
+    plant: 'Plantio',
     production: 'Produção',
-    supply: 'Insumos',
+    supply: 'Insumo',
     fertigation: 'Fertirrigação',
   }
 

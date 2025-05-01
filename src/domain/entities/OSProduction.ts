@@ -5,7 +5,7 @@ export const OSProduction= z.object({
     locale: z.string(),
     quantity: z.number(),
     equipment: z.string(),
-    date: z.date(),
+    date: z.string(),
     type: z.enum(["muda", "semente"]),
 });
 

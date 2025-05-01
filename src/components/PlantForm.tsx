@@ -57,7 +57,7 @@ export function PlantForm({ noteId, orderId }: PlantFormProps) {
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                         <Text style={styles.title}>nº {order.header.title}</Text>
                         <View style={styles.badge}>
-                            <Text style={styles.badgeText}>{capitalize(order.header.type)}</Text>
+                            <Text style={styles.badgeText}>Plantio</Text>
                         </View>
                     </View>
                     <Text>{new Date().toLocaleDateString()}</Text>
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     badge: {
-        backgroundColor: '#2cab3b',
+        backgroundColor: '#c233af',
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 4,

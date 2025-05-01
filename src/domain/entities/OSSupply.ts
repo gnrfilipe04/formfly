@@ -6,7 +6,7 @@ export const OSSupply= z.object({
     locale: z.string(),
     quantity: z.number(),
     internalCode: z.boolean(),
-    date: z.date(),
+    date: z.string(),
 });
 
 export type OSSupplyDTO = z.infer<typeof OSSupply>;

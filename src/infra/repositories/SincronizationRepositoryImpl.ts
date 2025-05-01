@@ -26,11 +26,7 @@ export class SincronizationRepositoryImpl implements SincronizationRepository {
     }
 
     async getOSProduction(): Promise<Either<AppError, AxiosResponse<OSProductionDTO[]>>> {
-        try {
-            return this.dataSource.getOSProduction();
-        } catch (error) {
-            throw error;
-        }
+        return this.dataSource.getOSProduction();
     }
 
     async getOSSupply(): Promise<Either<AppError, AxiosResponse<OSSupplyDTO[]>>> {
