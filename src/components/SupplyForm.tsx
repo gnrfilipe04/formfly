@@ -60,7 +60,7 @@ export function SupplyForm({ noteId, orderId }: SupplyFormProps) {
                             <Text style={styles.badgeText}>Insumo</Text>
                         </View>
                     </View>
-                    <Text>{new Date().toLocaleDateString()}</Text>
+                    <Text>{new Date(order.header.createdAt).toLocaleDateString()}</Text>
                 </View>
                 <Text style={styles.description}>{order.header.description}</Text>
             </View>

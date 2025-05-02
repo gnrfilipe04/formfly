@@ -10,7 +10,6 @@ import { plantFormSchema } from "../domain/entities/PlantNote";
 import { Text } from "./Themed";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { v4 as uuidv4 } from 'uuid';
-import { capitalize } from "../utils/helpers";
 import { useOSStore } from "../store/useOSStore";
 import { usePlantOSStore } from "../store/usePlantOSStore";
 import { OSPlantDTO } from "../domain/entities/OSPlant";
@@ -60,7 +59,7 @@ export function PlantForm({ noteId, orderId }: PlantFormProps) {
                             <Text style={styles.badgeText}>Plantio</Text>
                         </View>
                     </View>
-                    <Text>{new Date().toLocaleDateString()}</Text>
+                    <Text>{new Date(order.header.createdAt).toLocaleDateString()}</Text>
                 </View>
                 <Text style={styles.description}>{order.header.description}</Text>
             </View>

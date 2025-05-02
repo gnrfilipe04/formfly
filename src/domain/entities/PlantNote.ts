@@ -9,7 +9,8 @@ export const plantFormSchema = z.object({
         required_error: "Tipo é obrigatório",
     }),
     observations: z.string().optional(),
-    toSend: z.boolean().optional()
+    toSend: z.boolean().optional(),
+    isSkecth: z.boolean().optional(),
 });
 
 export const plantNoteSchema = z.object({

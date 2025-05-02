@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { FormProvider, useController, useForm } from "react-hook-form";
-import { View, Pressable, StyleSheet } from "react-native";
+import { View, Pressable, StyleSheet, Switch } from "react-native";
 import { ControlledInput } from "./ControlledInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -36,7 +36,7 @@ export function ProductionForm({ noteId, orderId }: ProductionFormProps) {
             date: note?.data.date,
             quantity: note?.data.quantity,
             equipment: note?.data.equipment,
-            type: note?.data.type,
+            property: note?.data.property,
             observations: note?.data.observations,
         }
     })
@@ -61,7 +61,7 @@ export function ProductionForm({ noteId, orderId }: ProductionFormProps) {
                             <Text style={styles.badgeText}>Produção</Text>
                         </View>
                     </View>
-                    <Text>{new Date().toLocaleDateString()}</Text>
+                    <Text>{new Date(order.header.createdAt).toLocaleDateString()}</Text>
                 </View>
                 <Text style={styles.description}>{order.header.description}</Text>
             </View>
@@ -131,37 +131,16 @@ export function ProductionForm({ noteId, orderId }: ProductionFormProps) {
                         )}
                     </View>
 
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Tipo</Text>
-                        <View style={[styles.input, { flexDirection: 'row', gap: 16 }]}>
-                            <Pressable
-                                style={[
-                                    styles.typeButton,
-                                    methods.watch('type') === 'muda' && styles.typeButtonActive
-                                ]}
-                                onPress={() => methods.setValue('type', 'muda')}
-                            >
-                                <Text style={[
-                                    styles.typeButtonText,
-                                    methods.watch('type') === 'muda' && styles.typeButtonTextActive
-                                ]}>Muda</Text>
-                            </Pressable>
-                            <Pressable
-                                style={[
-                                    styles.typeButton,
-                                    methods.watch('type') === 'semente' && styles.typeButtonActive
-                                ]}
-                                onPress={() => methods.setValue('type', 'semente')}
-                            >
-                                <Text style={[
-                                    styles.typeButtonText,
-                                    methods.watch('type') === 'semente' && styles.typeButtonTextActive
-                                ]}>Semente</Text>
-                            </Pressable>
-                        </View>
-                        {methods.formState.errors.type && (
-                            <Text style={styles.errorText}>{methods.formState.errors.type.message}</Text>
-                        )}
+                    <View style={[styles.inputContainer, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }]}>
+                        <Text style={styles.label}>Próprio</Text>
+                        <Switch 
+                            value={methods.watch('property')} 
+                            trackColor={{
+                                true: '#2cab3b',
+                                false: '#666',
+                            }}
+                            thumbColor={methods.watch('property') ? '#2cab3b' : '#fff'}
+                            onValueChange={(value) => methods.setValue('property', value)} />
                     </View>
 
                     <View style={styles.inputContainer}>
@@ -194,7 +173,7 @@ export function ProductionForm({ noteId, orderId }: ProductionFormProps) {
                                     date: methods.getValues('date'),
                                     quantity: methods.getValues('quantity'),
                                     equipment: methods.getValues('equipment'),
-                                    type: methods.getValues('type'),
+                                    property: methods.getValues('property'),
                                     observations: methods.getValues('observations'),
                                     toSend: false,
                                     isSkecth: true

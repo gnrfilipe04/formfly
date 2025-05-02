@@ -6,11 +6,10 @@ export const productionFormSchema = z.object({
     date: z.string(),
     quantity: z.number().min(0, "Quantidade deve ser maior que 0"),
     equipment: z.string().min(1, "Equipamento é obrigatório"),
-    type: z.enum(["muda", "semente"], {
-        required_error: "Tipo é obrigatório",
-    }),
+    property: z.boolean(),
     observations: z.string().optional(),
-    toSend: z.boolean().optional()
+    toSend: z.boolean().optional(),
+    isSkecth: z.boolean().optional(),
 });
 
 export const productionNoteSchema = z.object({

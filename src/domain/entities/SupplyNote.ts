@@ -7,7 +7,8 @@ export const supplyFormSchema = z.object({
     quantity: z.number().min(0, "Quantidade deve ser maior que 0"),
     internalCode: z.boolean(),
     observations: z.string().optional(),
-    toSend: z.boolean().optional()
+    toSend: z.boolean().optional(),
+    isSkecth: z.boolean().optional(),
 });
 
 export const supplyNoteSchema = z.object({
